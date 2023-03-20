@@ -23,8 +23,8 @@ jobs:
           echo "fail_pods=$(kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l)" > $GITHUB_OUTPUT
     - name: Slack Notification problem
       uses: rtCamp/action-slack-notify@v2
-      if: steps.check.outputs.fail_pods > 1
+#      if: steps.check.outputs.fail_pods > 1
       env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: 'You have crashed Pods'
+          SLACK_MESSAGE: ${{join(steps.check.outputs.fail_pods.*, '\n')}}
 
