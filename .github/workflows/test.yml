@@ -19,11 +19,11 @@ jobs:
         proxy_password: ${{ secrets.PROXY_PASSWORD }}
         script: |
           echo "$(kubectl get pods -A)"
-          echo "fail_pods=$(kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l)" >> $GITHUB_ENV
+          echo "fail_pods=$(kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l)" >> $GITHUB_OUTPUT
   slackNotification:
     name: Slack Notification
     runs-on: ubuntu-latest
-    if: env.fail_pods == 1
+    if: steps.check.outputs.fail_pods == 1
     steps:
     - uses: actions/checkout@v2
     - name: Slack Notification
