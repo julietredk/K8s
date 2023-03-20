@@ -1,0 +1,14 @@
+name: GitHub Action
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: 
+  push: 
+  pull_request:
+jobs:
+  Check K8s pods:
+    runs-on: ubuntu-latest
+    steps:
+    - run: kubectl get pods -A  ${{ steps.files.outputs.added_modified }} > logfile.log
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        path: logfile.log
