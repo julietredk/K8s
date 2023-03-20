@@ -16,9 +16,8 @@ jobs:
         proxy_host: ${{ secrets.PROXY_SERVER }}
         proxy_username: ${{ secrets.PROXY_USER }}
         proxy_password: ${{ secrets.PROXY_PASSWORD }}
-        script: whoami
-    - name: Status Checker
-      id: check
-      run: |
-        echo "$(kubectl get pods -A)" 
-        echo "Hello" 
+        script: |
+          whoami
+          echo "$(kubectl get pods -A)"
+          echo "Hello"
+
