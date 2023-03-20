@@ -24,7 +24,7 @@ jobs:
   slackNotification:
     name: Slack Notification
     runs-on: ubuntu-latest
-    if: $FAIL_PODS >= 1
+    if: FAIL_PODS >= 1
     steps:
     - uses: actions/checkout@v2
     - name: Slack Notification
