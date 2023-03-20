@@ -4,7 +4,7 @@ on:
   push: 
   pull_request:
 jobs:
-  Check K8s pods:
+  Check_K8s_pods:
     runs-on: ubuntu-latest
     steps:
     - run: kubectl get pods -A  ${{ steps.files.outputs.added_modified }} > logfile.log
