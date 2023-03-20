@@ -24,8 +24,7 @@ jobs:
   slackNotification:
     name: Slack Notification
     runs-on: ubuntu-latest
-#    if: steps.checks.outputs.fail_pods == 1
-    if: ${{ steps.checks.outputs.fail_pods != 5 }}
+    if: ${{ Build.checks.outputs.fail_pods != 5 }}
     steps:
     - uses: actions/checkout@v2
     - name: Slack Notification
