@@ -119,12 +119,14 @@ Localhost:
 
 Install kubectl for local run - done
 Install k9s to maintain cluster - done
-Make print-screen of k9s with pods in all namespaces
+Make print-screen of k9s with pods in all namespaces:
+![img](https://github.com/julietredk/K8s/blob/master/k9s_2.jpg)
 
-Kubernetes host
+Kubernetes host:
 
-Finish workshop deployment if it is not done yet
-Deploy shell pod in default namespace which you can you use for internal checks inside the cluster
-GitHub
+Finish workshop deployment if it is not done yet - done
+Deploy shell pod in default namespace which you can you use for internal checks inside the cluster: done (see screenshot above)
+
+GitHub:
 
 Create GitHub action to check status of pods and create slack notification if you have crashed/failed pods
