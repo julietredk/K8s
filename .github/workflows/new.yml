@@ -16,7 +16,6 @@ jobs:
           eval "$(ssh-agent)"
           ssh-add 
           cat .ssh/authorized_keys
-          echo "${{secrets.SSH_KNOWN_HOSTS}}" >> ~/.ssh/known_hosts
           ssh "${{ secrets.HOST_USER }}"@"${{ secrets.HOST }}"  -o ProxyCommand="ssh -W %h:%p -q "${{secrets.PROXY_USER}}"@"${{secrets.PROXY_SERVER}}" 
-          whoami
+
 
