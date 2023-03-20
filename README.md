@@ -58,3 +58,60 @@ k9s
 ```
 We can see our test cluster:
 ![img](https://github.com/julietredk/K8s/blob/master/k9s.jpg)
+9. Create yaml file for shell pod
+```
+yulia@ubuntuserver:~/Gitlab_repo/10.K8s$ cat test-pod.yaml 
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu
+  labels:
+    app: ubuntu
+spec:
+  containers:
+  - image: ghcr.io/pluhin/busy-box:latest
+    command:
+      - "sleep"
+      - "604800"
+    imagePullPolicy: IfNotPresent
+    name: ubuntu
+  restartPolicy: Always
+  ```
+  10. Run and check
+
+```
+kubectl apply -f test-pod.yaml
+yulia@ubuntuserver:~/Gitlab_repo/10.K8s$ kubectl apply -f test-pod.yaml
+pod/ubuntu created
+yulia@ubuntuserver:~/Gitlab_repo/10.K8s$ kubectl get pods -A           
+NAMESPACE     NAME                                      READY   STATUS              RESTARTS   AGE
+kube-system   coredns-597584b69b-nz7fh                  1/1     Running             0          3d17h
+kube-system   local-path-provisioner-79f67d76f8-b7lcr   1/1     Running             0          3d17h
+kube-system   metrics-server-5f9f776df5-wtp2t           1/1     Running             0          3d17h
+default       ubuntu                                    0/1     ContainerCreating   0          2s
+```
+11. Do some commands on pod ubuntu
+
+```yulia@ubuntuserver:~/Gitlab_repo/10.K8s$ kubectl exec -it ubuntu pwd
+kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+/
+yulia@ubuntuserver:~/Gitlab_repo/10.K8s$ kubectl exec -it ubuntu -- bash
+root@ubuntu:/# pwd
+/
+root@ubuntu:/# cat /etc/os-release  
+NAME="Ubuntu"
+VERSION="20.04.4 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.4 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+root@ubuntu:/# 
+```
+
