@@ -23,7 +23,7 @@ jobs:
   slackNotification:
     name: Slack Notification
     runs-on: ubuntu-latest
-    if: env.fail_pods >= 1
+    if: env.fail_pods == 1
     steps:
     - uses: actions/checkout@v2
     - name: Slack Notification
