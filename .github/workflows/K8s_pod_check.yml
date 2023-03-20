@@ -7,8 +7,7 @@ jobs:
   Check_K8s_pods:
     runs-on: ubuntu-latest
     steps:
-    - run: kubectl get pods -A  ${{ steps.files.outputs.added_modified }} > logfile.log
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        path: logfile.log
+    - run: |
+        echo -e "\n$(kubectl get node)"
+        echo -e "\n$(kubectl kubectl get pods -A)\n"
+
