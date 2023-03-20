@@ -57,4 +57,4 @@ sudo tar -C /usr/local/bin -xzf k9s_Linux_amd64.tar.gz
 k9s
 ```
 We can see our test cluster:
-
+![img](https://github.com/julietredk/K8s/blob/master/k9s.jpg)
