@@ -19,11 +19,12 @@ jobs:
         script: |
           whoami
           echo "$(kubectl get pods -A)"
-          echo "Hello"
+          echo "kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l" >> $FAIL_PODS
 
   slackNotification:
     name: Slack Notification
     runs-on: ubuntu-latest
+    if: $FAIL_PODS >= 1
     steps:
     - uses: actions/checkout@v2
     - name: Slack Notification
