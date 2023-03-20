@@ -12,6 +12,7 @@ jobs:
       - name: connect to Kuber and obtaining information about pods
         run: |
           mkdir ~/.ssh
+          eval "$(ssh-agent)"
           ssh-add - <<< "${{secrets.SSH_KEY}}"
           ssh "${{ secrets.HOST_USER }}"@"$"{{ secrets.HOST }}"  -o ProxyCommand="ssh -W %h:%p -q "${{secrets.PROXY_USER}}"@"${{secrets.PROXY_SERVER}}" 
           whoami
