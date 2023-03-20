@@ -18,7 +18,6 @@ jobs:
         proxy_username: ${{ secrets.PROXY_USER }}
         proxy_password: ${{ secrets.PROXY_PASSWORD }}
         script: |
-          whoami
           echo "$(kubectl get pods -A)"
           echo "fail_pods=$(kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l)" >> $GITHUB_OUTPUT
   slackNotification:
