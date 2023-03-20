@@ -1,5 +1,5 @@
 # 10. Kubernetes installation (WS)
-Describe steps that were done on workshop
+## **Workshop**
 1. Install k3s on remote host 192.168.203.16
 ```
 curl -fL https://get.k3s.io |  sh -s - --write-kubeconfig-mode 644 --disable traefik --disable servicelb
@@ -114,4 +114,17 @@ VERSION_CODENAME=focal
 UBUNTU_CODENAME=focal
 root@ubuntu:/# 
 ```
+## **Homework**
+Localhost:
 
+Install kubectl for local run - done
+Install k9s to maintain cluster - done
+Make print-screen of k9s with pods in all namespaces
+
+Kubernetes host
+
+Finish workshop deployment if it is not done yet
+Deploy shell pod in default namespace which you can you use for internal checks inside the cluster
+GitHub
+
+Create GitHub action to check status of pods and create slack notification if you have crashed/failed pods
