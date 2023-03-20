@@ -1,17 +1,16 @@
+---
 name: remote ssh command
-on: [push]
+on:
+  - push
 jobs:
-
   build:
     name: Build
     runs-on: ubuntu-latest
-	uses: actions/checkout@v3
-    steps:
+  steps:
     - name: executing remote ssh commands using password
-	  uses: actions/checkout@v3
-	-name: ssh connect
-      id: checks
-	  run: |
+      uses: actions/checkout@v3      
+    - name: connect to Kuber and obtaining information about pods
+      run: |
         mkdir ~/.ssh
         eval `ssh-agent -s`
         ssh-add - <<< "${{secrets.SSH_KEY}}"
