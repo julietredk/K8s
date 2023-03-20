@@ -20,8 +20,6 @@ jobs:
         script: |
           echo "$(kubectl get pods -A)"
           echo "fail_pods=$(kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l)" >> $GITHUB_OUTPUT
-          echo "$GITHUB_CONTEXT"
-
     - name: Slack Notification
       if: ${{ Build.checks.outputs.fail_pods != 5 }}
       - uses: actions/checkout@v2
