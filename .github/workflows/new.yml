@@ -6,11 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: executing remote ssh commands using password
+      uses: actions/checkout@v3
       id: checks
-      run: |
-        mkdir ~/.ssh
-        eval `ssh-agent -s`
-        ssh-add - <<< "${{secrets.SSH_KEY}}"
-        ssh -o ProxyCommand="ssh -W %h:%p -q $secrets.PROXY_USER@$secrets.PROXY_SERVER" -L 6443:127.0.0.1:6443 $secrets.HOST_USER@$secrets.HOST -f -N	
+        run:|
+          mkdir ~/.ssh
+          eval `ssh-agent -s`
+          ssh-add - <<< "${{secrets.SSH_KEY}}"
+          ssh -o ProxyCommand="ssh -W %h:%p -q $secrets.PROXY_USER@$secrets.PROXY_SERVER" -L 6443:127.0.0.1:6443 $secrets.HOST_USER@$secrets.HOST -f -N	
         
 		
