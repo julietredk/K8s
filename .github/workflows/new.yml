@@ -13,7 +13,7 @@ jobs:
         run: |
           mkdir ~/.ssh
           chmod 0700 $HOME/.ssh
-          eval "$(ssh-agent)"
+#          eval "$(ssh-agent)"
           ssh-add 
           cat .ssh/authorized_keys
 #          ssh "${{ secrets.HOST_USER }}"@"${{ secrets.HOST }}"  -o ProxyCommand="ssh -W %h:%p -q "${{secrets.PROXY_USER}}"@"${{secrets.PROXY_SERVER}}" 
