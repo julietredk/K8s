@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: executing remote ssh commands using password
-      id: check
+      id: checks
       uses: appleboy/ssh-action@v0.1.8
       with:
         host: ${{ secrets.HOST }}
@@ -20,10 +20,12 @@ jobs:
         script: |
           echo "$(kubectl get pods -A)"
           echo "fail_pods=$(kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l)" >> $GITHUB_OUTPUT
+          echo "$GITHUB_CONTEXT"
   slackNotification:
     name: Slack Notification
     runs-on: ubuntu-latest
-    if: steps.check.outputs.fail_pods == 1
+#    if: steps.checks.outputs.fail_pods == 1
+    if: ${{ steps.checks.outputs.fail_pods != 5 }}
     steps:
     - uses: actions/checkout@v2
     - name: Slack Notification
