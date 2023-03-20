@@ -19,6 +19,6 @@ jobs:
         script: whoami
     - name: Status Checker
       id: check
-        run: |
-          echo "$(kubectl get pods -A)" 
-          echo "Hello" 
+      run: |
+        echo "$(kubectl get pods -A)" 
+        echo "Hello" 
