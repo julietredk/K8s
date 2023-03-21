@@ -25,7 +25,6 @@ jobs:
           echo "fail_pods=$(kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l)" > logfile.log
           
     - name: copy logfile.log
-      uses: actions/checkout@v3
       run: |
         scp -o "ProxyCommand ssh "${{ secrets.PROXY_USER }}"@"${{ secrets.PROXY_SERVER }}" -W %h:%p" "${{ secrets.HOST_USER }}"@"${{ secrets.HOST }}":logfile.log .
         cat logfile.log
