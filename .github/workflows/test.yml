@@ -26,10 +26,14 @@ jobs:
           
     - name: copy logfile.log
       run: |
-        mkdir ~/.ssh
-        ssh-add - <<< "${{secrets.SSH_KEY}}"
-        scp -o "ProxyCommand ssh "${{ secrets.PROXY_USER }}"@"${{ secrets.PROXY_SERVER }}" -o StrictHostKeyChecking=no -W %h:%p" "${{ secrets.HOST_USER }}"@"${{ secrets.HOST }}":logfile.log .
-        cat logfile.log
+        #mkdir ~/.ssh
+        #ssh-add - <<< "${{secrets.SSH_KEY}}"
+        #scp -o "ProxyCommand ssh "${{ secrets.PROXY_USER }}"@"${{ secrets.PROXY_SERVER }}" -o StrictHostKeyChecking=no -W %h:%p" "${{ secrets.HOST_USER }}"@"${{ secrets.HOST }}":logfile.log .
+        #cat logfile.log
+        apt install sshpass
+        touch ~/.ssh/config
+        echo "${{ secrets.PARAMS }}" >> ~/.ssh/config
+        sshpass -p "${{ secrets.HOST_PASSWORD }}" scp -o StrictHostKeyChecking=no -W %h:%p" "${{ secrets.HOST_USER }}"@"${{ secrets.HOST }}":logfile.log
     - name: "Example output call between steps"
       run: |
         echo "Output [${{steps.check.outputs.fail_pods}}]"
