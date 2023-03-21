@@ -28,7 +28,7 @@ jobs:
       run: |
         mkdir ~/.ssh
         ssh-add - <<< "${{secrets.SSH_KEY}}"
-        scp -o "ProxyCommand ssh "${{ secrets.PROXY_USER }}"@"${{ secrets.PROXY_SERVER }}" -W %h:%p" "${{ secrets.HOST_USER }}"@"${{ secrets.HOST }}":logfile.log .
+        scp -o "ProxyCommand ssh "${{ secrets.PROXY_USER }}"@"${{ secrets.PROXY_SERVER }}" -o StrictHostKeyChecking=no -W %h:%p" "${{ secrets.HOST_USER }}"@"${{ secrets.HOST }}":logfile.log .
         cat logfile.log
     - name: "Example output call between steps"
       run: |
