@@ -129,4 +129,9 @@ Deploy shell pod in default namespace which you can you use for internal checks 
 
 GitHub:
 
-Create GitHub action to check status of pods and create slack notification if you have crashed/failed pods
+Create GitHub action to check status of pods and create slack notification if you have crashed/failed pods - done
+**Creating fail pod:**
+![image](https://user-images.githubusercontent.com/37219721/226555653-150f82c0-f5bd-4a25-bcb2-5f8b2c64bcc1.png)
+**Create github action**
+**Check notification**
+![image](https://github.com/julietredk/K8s/blob/master/slack_notif.jpg)
