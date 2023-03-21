@@ -1,13 +1,50 @@
-name: GitHub Action
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: 
-  push: 
-  pull_request:
+---
+name: Check k3s cluster pods
+
+on:
+  schedule:
+    - cron: '*/12 * * * *'
+  push:
+    branches:
+      - 'master'
+
 jobs:
-  Check_K8s_pods:
+  check:
+    env:
+      output: output.log
+      crash_report: crash_report.log
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        echo -e "\n$(kubectl get node)"
-        echo -e "\n$(kubectl kubectl get pods -A)\n"
 
+    - name: Add SSH key and connect to k3s
+      run: |
+        which ssh-agent
+        mkdir ~/.ssh
+        eval `ssh-agent -s`
+        ssh-add - <<< "${{secrets.SSH_KEY}}"
+        ssh-keyscan -H ${{ secrets.PROXY_SERVER }} >> ~/.ssh/known_hosts
+        ssh ${{ secrets.PROXY_USER }}@${{ secrets.PROXY_SERVER }} ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+        ssh -o ProxyCommand="ssh -W %h:%p ${{ secrets.PROXY_USER }}@${{ secrets.PROXY_SERVER }}" ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST }} "kubectl get pods -A" >> ${{ env.output }}
+    - name: Check pods status
+      id: check_pods
+      run: |
+        kubectl get pods -A >> ${{ env.output }}
+        echo "$(cat ${{ env.output }} | grep -v Running) >> ${{ env.crash_report }}
+        echo "pods_fail=$(wc -l < ${{ env.output }})" >> $GITHUB_OUTPUT
+    - name: Additional information in log file
+      if: steps.check_pods.outputs.no_running_line > 1
+      uses: actions/upload-artifact@v2
+      with:
+        path: ${{ env.crash_report }}
+
+    - name: upload crashed pod's list
+      if: steps.check_pods.outputs.pods_fail > 1
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: local_notifications
+        SLACK_COLOR: 'red'
+        SLACK_TITLE: 'Check pods'
+        LACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_MESSAGE: 'WARNING! Check k3S cluster!'
+        SLACK_USERNAME: ntBot
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
