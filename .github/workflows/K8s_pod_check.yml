@@ -3,7 +3,7 @@ name: Check k3s cluster pods
 
 on:
   schedule:
-    - cron: '*/12 * * * *'
+    - cron: '*/5 * * * *'
   push:
     branches:
       - 'master'
