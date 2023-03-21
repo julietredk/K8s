@@ -23,11 +23,12 @@ jobs:
           echo "$(kubectl get pods -A)"
           echo "$(kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l)"
           echo "fail_pods=$(kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l)" > logfile.log
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        path: logfile.log
-
+          
+    - name: copy logfile.log
+      uses: actions/checkout@v3
+      run: |
+        scp -o "ProxyCommand ssh "${{ secrets.PROXY_USER }}"@"${{ secrets.PROXY_SERVER }}" -W %h:%p" "${{ secrets.HOST_USER }}"@"${{ secrets.HOST }}":logfile.log .
+        cat logfile.log
     - name: "Example output call between steps"
       run: |
         echo "Output [${{steps.check.outputs.fail_pods}}]"
