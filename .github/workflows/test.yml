@@ -1,5 +1,7 @@
 name: remote ssh command
-on: [push]
+on: 
+  push:
+  pull_request:
 jobs:
 
   build:
@@ -20,7 +22,12 @@ jobs:
         script: |
           echo "$(kubectl get pods -A)"
           echo "$(kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l)"
-          echo "fail_pods=$(kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l)" >> $GITHUB_OUTPUT
+          echo "fail_pods=$(kubectl get pods -A | grep -v Running | grep -v NAMESPACE | wc -l)" > logfile.log
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        path: logfile.log
+
     - name: "Example output call between steps"
       run: |
         echo "Output [${{steps.check.outputs.fail_pods}}]"
